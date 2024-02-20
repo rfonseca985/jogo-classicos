@@ -2,24 +2,21 @@ import base.Elemento;
 import base.Texto;
 import base.Util;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-
-
+import javax.swing.*;
 
 
 public class Jogo extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private Timer timer;
 
 	private static final int FPS = 1000 / 20;
 
@@ -72,6 +69,15 @@ public class Jogo extends JFrame {
 		setResizable(false);
 		setSize(JANELA_LARGURA, JANELA_ALTURA);
 		setVisible(true);
+
+		// Configurando o Timer
+		timer = new Timer(FPS, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Lógica do jogo aqui...
+				// Certifique-se de chamar iniciarJogo() ou o método principal do seu loop.
+			}
+		});
 
 	}
 
@@ -146,6 +152,7 @@ public class Jogo extends JFrame {
 	private Random rand = new Random();
 
 	private void carregarJogo() {
+		level = 1; // Adicione esta linha para garantir que o nível seja resetado para 1
 
 		tanque = new Tanque();
 		tanque.setVel(3);
@@ -184,11 +191,12 @@ public class Jogo extends JFrame {
 		totalInimigos = invasores.length * invasores[0].length;
 
 		contadorEspera = totalInimigos / level;
-
 	}
 
 	public void iniciarJogo() {
 		long prxAtualizacao = 0;
+
+
 
 		while (true) {
 			if (System.currentTimeMillis() >= prxAtualizacao) {
@@ -302,9 +310,6 @@ public class Jogo extends JFrame {
 
 						}
 
-						// Desenhe aqui se quiser economizar no loop.
-						// e.desenha(g2d);
-
 					}
 				}
 
@@ -395,22 +400,64 @@ public class Jogo extends JFrame {
 
 				tela.repaint();
 
+				if (vidas <= 0) {
+					exibirGameOver();
+					break;
+				}
+
 				prxAtualizacao = System.currentTimeMillis() + FPS;
+
 			}
 		}
 
 	}
-
 	public void addTiroInimigo(Elemento inimigo, Elemento tiro) {
 		tiro.setAtivo(true);
 		tiro.setPx(inimigo.getPx() + inimigo.getLargura() / 2 - tiro.getLargura() / 2);
 		tiro.setPy(inimigo.getPy() + inimigo.getAltura());
 	}
 
+	private void exibirGameOver() {
+		int escolha = JOptionPane.showOptionDialog(
+				this,
+				"Deseja jogar novamente?",
+				"Game Over",
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				new Object[]{"Jogar Novamente", "Fechar Jogo"},
+				"Jogar Novamente"
+		);
+
+		if (escolha == JOptionPane.YES_OPTION) {
+			carregarJogo(); // Reinicia o jogo
+
+			// Certifique-se de que o timer seja parado antes de reiniciar
+			if (timer.isRunning()) {
+				timer.stop();
+			}
+
+			// Reinicia o timer
+			timer.start();
+
+			// Reinicia o número de vidas
+			vidas = 3;
+
+			// Inicie o jogo novamente (chame iniciarJogo() ou o método principal do seu loop)
+			iniciarJogo();
+		} else {
+			System.exit(0); // Encerra o programa
+		}
+	}
 	public static void main(String[] args) {
-		Jogo jogo = new Jogo();
-		jogo.carregarJogo();
-		jogo.iniciarJogo();
+		// Crie uma instância do MenuInicial ao iniciar o programa
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new MenuInicial();
+			}
+		});
+
 	}
 
 }
