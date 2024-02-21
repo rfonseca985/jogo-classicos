@@ -1,6 +1,6 @@
-import base.Elemento;
-import base.Texto;
-import base.Util;
+import baseSI.Elemento;
+import baseSI.Texto;
+import baseSI.Util;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -33,6 +33,7 @@ public class Jogo extends JFrame {
 	private boolean[] controleTecla = new boolean[5];
 
 	public Jogo() {
+
 		this.addKeyListener(new KeyListener() {
 
 			@Override
@@ -78,7 +79,6 @@ public class Jogo extends JFrame {
 				// Certifique-se de chamar iniciarJogo() ou o método principal do seu loop.
 			}
 		});
-
 	}
 
 	private void setaTecla(int tecla, boolean pressionada) {
@@ -196,7 +196,7 @@ public class Jogo extends JFrame {
 	public void iniciarJogo() {
 		long prxAtualizacao = 0;
 
-
+		setLocationRelativeTo(null); // Centraliza o frame na tela
 
 		while (true) {
 			if (System.currentTimeMillis() >= prxAtualizacao) {
