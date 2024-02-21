@@ -32,7 +32,8 @@ public class MenuInicial extends JFrame {
         jogarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                iniciarJogo(); // Adicione aqui a lógica para iniciar o jogo
+                // Adicione a lógica para iniciar o jogo
+                iniciarJogo();
             }
         });
         buttonPanel.add(jogarButton);
@@ -60,29 +61,13 @@ public class MenuInicial extends JFrame {
         // Fecha a janela do menu
         dispose();
 
-        // Cria e executa um SwingWorker para iniciar o jogo em segundo plano
-        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+        // Inicia o jogo em uma nova Thread
+        new Thread(new Runnable() {
             @Override
-            protected Void doInBackground() throws Exception {
+            public void run() {
                 jogo.iniciarJogo();
-                return null;
             }
-        };
-
-        // Adiciona um listener para a conclusão do SwingWorker
-        worker.addPropertyChangeListener(evt -> {
-            if (SwingWorker.StateValue.DONE == evt.getNewValue()) {
-                // Exibe a caixa de diálogo após o término do jogo
-                JOptionPane.showMessageDialog(null, "Jogo concluído!");
-                // Termina o programa
-                System.exit(0);
-            }
-        });
-
-        // Executa o SwingWorker
-        worker.execute();
-
-        JOptionPane.showMessageDialog(this, "Iniciar Jogo!");
+        }).start();
     }
 
     private void exibirCreditos() {

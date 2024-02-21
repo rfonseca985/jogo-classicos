@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Jogos Classicos.iml" filepath="$PROJECT_DIR$/Jogos Classicos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Pong/Pong.iml" filepath="$PROJECT_DIR$/Pong/Pong.iml" />
       <module fileurl="file://$PROJECT_DIR$/Space Invaders/Space Invaders.iml" filepath="$PROJECT_DIR$/Space Invaders/Space Invaders.iml" />
     </modules>
   </component>
