@@ -1,4 +1,4 @@
-package base;
+package baseSI;
 
 /**
  * A classe Util contém métodos utilitários para operações com elementos em um jogo.

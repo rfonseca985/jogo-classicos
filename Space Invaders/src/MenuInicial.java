@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class MenuInicial extends JFrame {
 
-    private Jogo jogo = new Jogo();
+    private JogoSpaceInvader jogoSpaceInvader = new JogoSpaceInvader();
     public MenuInicial() {
         // Configurações básicas do frame
         setTitle("Spacer Invaders");
@@ -17,7 +17,7 @@ public class MenuInicial extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        // Título do jogo
+        // Título do jogoSpaceInvader
         JLabel titleLabel = new JLabel("Spacer Invaders");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -32,7 +32,7 @@ public class MenuInicial extends JFrame {
         jogarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Adicione a lógica para iniciar o jogo
+                // Adicione a lógica para iniciar o jogoSpaceInvader
                 iniciarJogo();
             }
         });
@@ -61,11 +61,11 @@ public class MenuInicial extends JFrame {
         // Fecha a janela do menu
         dispose();
 
-        // Inicia o jogo em uma nova Thread
+        // Inicia o jogoSpaceInvader em uma nova Thread
         new Thread(new Runnable() {
             @Override
             public void run() {
-                jogo.iniciarJogo();
+                jogoSpaceInvader.iniciarJogo();
             }
         }).start();
     }
