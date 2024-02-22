@@ -1,7 +1,17 @@
 package baseS;
 
+/**
+ * Uma classe utilitária que fornece vários métodos estáticos para detecção de colisão e manipulação de elementos.
+ */
 public class Util {
 
+	/**
+	 * Verifica se dois elementos colidem entre si.
+	 *
+	 * @param a O primeiro elemento.
+	 * @param b O segundo elemento.
+	 * @return True se os elementos colidirem, false caso contrário.
+	 */
 	public static boolean colide(Elemento a, Elemento b) {
 		if (!a.isAtivo() || !b.isAtivo())
 			return false;
@@ -18,6 +28,13 @@ public class Util {
 		return false;
 	}
 
+	/**
+	 * Verifica se dois elementos colidem ao longo do eixo X.
+	 *
+	 * @param a O primeiro elemento.
+	 * @param b O segundo elemento.
+	 * @return True se os elementos colidirem ao longo do eixo X, false caso contrário.
+	 */
 	public static boolean colideX(Elemento a, Elemento b) {
 		if (!a.isAtivo() || !b.isAtivo())
 			return false;
@@ -29,15 +46,29 @@ public class Util {
 		return false;
 	}
 
+	/**
+	 * Centraliza o elemento especificado dentro de uma largura e altura dadas.
+	 *
+	 * @param el   O elemento a ser centralizado.
+	 * @param larg A largura dentro da qual centralizar o elemento.
+	 * @param alt  A altura dentro da qual centralizar o elemento.
+	 */
 	public static void centraliza(Elemento el, int larg, int alt) {
 		if (alt > 0)
 			el.setPy(alt / 2 - el.getAltura() / 2);
 
 		if (larg > 0)
 			el.setPx(larg / 2 - el.getLargura() / 2);
-
 	}
 
+	/**
+	 * Verifica se o elemento especificado saiu da largura e altura fornecidas.
+	 *
+	 * @param e       O elemento a ser verificado.
+	 * @param largura O limite de largura.
+	 * @param altura  O limite de altura.
+	 * @return True se o elemento saiu, false caso contrário.
+	 */
 	public static boolean saiu(Elemento e, int largura, int altura) {
 		if (e.getPx() < 0 || e.getPx() + e.getLargura() > largura)
 			return true;
@@ -47,5 +78,4 @@ public class Util {
 
 		return false;
 	}
-
 }
