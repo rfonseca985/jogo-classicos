@@ -4,21 +4,14 @@ import baseSI.Util;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-/**
- * A classe `JogoSpaceInvader` representa o jogo principal do Space Invader.
- * Extende `JFrame` para criar uma interface gráfica.
- */
-public class JogoSpaceInvader extends JFrame {
+public class JogoSpaceInvaders extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private Timer timer;
 
 	private static final int FPS = 1000 / 20;
 
@@ -34,12 +27,7 @@ public class JogoSpaceInvader extends JFrame {
 
 	private boolean[] controleTecla = new boolean[5];
 
-	/**
-	 * Construtor da classe `JogoSpaceInvader`.
-	 * Configura a interface gráfica, adiciona ouvintes de teclado e inicia o timer do jogo.
-	 */
-	public JogoSpaceInvader() {
-
+	public JogoSpaceInvaders() {
 		this.addKeyListener(new KeyListener() {
 
 			@Override
@@ -77,22 +65,8 @@ public class JogoSpaceInvader extends JFrame {
 		setSize(JANELA_LARGURA, JANELA_ALTURA);
 		setVisible(true);
 
-		// Configurando o Timer
-		timer = new Timer(FPS, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// Lógica do jogo aqui...
-				// Certifique-se de chamar `iniciarJogo()` ou o método principal do seu loop.
-			}
-		});
 	}
 
-	/**
-	 * Atualiza o estado das teclas no array de controle.
-	 *
-	 * @param tecla       Código da tecla.
-	 * @param pressionada  Indica se a tecla está pressionada.
-	 */
 	private void setaTecla(int tecla, boolean pressionada) {
 		switch (tecla) {
 			case KeyEvent.VK_UP:
@@ -114,34 +88,56 @@ public class JogoSpaceInvader extends JFrame {
 	}
 
 	// Elementos do jogo
+
 	private int vidas = 3;
+
+	// Desenharemos mais dois tanques na base da tela
 	private Elemento vida = new Tanque();
+
 	private Elemento tiroTanque;
+
 	private Elemento tiroChefe;
+
 	private Elemento[] tiros = new Tiro[3];
+
 	private Texto texto = new Texto();
+
 	private Invader chefe;
+
 	private Elemento tanque;
+
 	private Invader[][] invasores = new Invader[11][5];
+
 	private Invader.Tipos[] tipoPorLinha = { Invader.Tipos.PEQUENO, Invader.Tipos.MEDIO, Invader.Tipos.MEDIO, Invader.Tipos.GRANDE, Invader.Tipos.GRANDE };
+
+	//
 	private int linhaBase = 60;
+
+	// Controle do espacamento entre os inimigos e outros elementos
 	private int espacamento = 15;
+
+	// Contador de inimigos destruidos
 	private int destruidos = 0;
+
 	private int dir;
+
 	private int totalInimigos;
+
 	private int contadorEspera;
+
 	boolean novaLinha;
+
 	boolean moverInimigos;
+
 	private int contador;
+
 	private int pontos;
+
 	private int level = 1;
+
 	private Random rand = new Random();
 
-	/**
-	 * Carrega o estado inicial do jogo.
-	 */
 	private void carregarJogo() {
-		level = 1;
 
 		tanque = new Tanque();
 		tanque.setVel(3);
@@ -180,15 +176,11 @@ public class JogoSpaceInvader extends JFrame {
 		totalInimigos = invasores.length * invasores[0].length;
 
 		contadorEspera = totalInimigos / level;
+
 	}
 
-	/**
-	 * Inicia o loop principal do jogo.
-	 */
 	public void iniciarJogo() {
 		long prxAtualizacao = 0;
-
-		setLocationRelativeTo(null); // Centraliza o frame na tela
 
 		while (true) {
 			if (System.currentTimeMillis() >= prxAtualizacao) {
@@ -222,6 +214,7 @@ public class JogoSpaceInvader extends JFrame {
 					}
 				}
 
+				// Pressionou espaco, adiciona tiro
 				if (controleTecla[4] && !tiroTanque.isAtivo()) {
 					tiroTanque.setPx(tanque.getPx() + tanque.getLargura() / 2 - tiroTanque.getLargura() / 2);
 					tiroTanque.setPy(tanque.getPy() - tiroTanque.getAltura());
@@ -242,7 +235,10 @@ public class JogoSpaceInvader extends JFrame {
 
 				boolean colideBordas = false;
 
+				// Percorrendo primeiro as linhas, de baixo para cima
 				for (int j = invasores[0].length - 1; j >= 0; j--) {
+
+					// Depois as colunas
 					for (int i = 0; i < invasores.length; i++) {
 
 						Invader inv = invasores[i][j];
@@ -297,6 +293,9 @@ public class JogoSpaceInvader extends JFrame {
 							}
 
 						}
+
+						// Desenhe aqui se quiser economizar no loop.
+						// e.desenha(g2d);
 
 					}
 				}
@@ -355,6 +354,7 @@ public class JogoSpaceInvader extends JFrame {
 					}
 				}
 
+				// Desenhe aqui para as naves ficarem acima dos tiros
 				for (int i = 0; i < invasores.length; i++) {
 					for (int j = 0; j < invasores[i].length; j++) {
 						Invader e = invasores[i][j];
@@ -374,6 +374,7 @@ public class JogoSpaceInvader extends JFrame {
 				texto.desenha(g2d, "Level " + level, tela.getWidth() - 100, 20);
 				texto.desenha(g2d, String.valueOf(vidas), 10, tela.getHeight() - 10);
 
+				// Linha base
 				g2d.setColor(Color.GREEN);
 				g2d.drawLine(0, tela.getHeight() - linhaBase, tela.getWidth(), tela.getHeight() - linhaBase);
 
@@ -386,78 +387,22 @@ public class JogoSpaceInvader extends JFrame {
 
 				tela.repaint();
 
-				if (vidas <= 0) {
-					exibirGameOver();
-					break;
-				}
-
 				prxAtualizacao = System.currentTimeMillis() + FPS;
-
 			}
 		}
 
 	}
 
-	/**
-	 * Adiciona um tiro do inimigo.
-	 *
-	 * @param inimigo Elemento inimigo que dispara o tiro.
-	 * @param tiro    Elemento tiro do inimigo.
-	 */
 	public void addTiroInimigo(Elemento inimigo, Elemento tiro) {
 		tiro.setAtivo(true);
 		tiro.setPx(inimigo.getPx() + inimigo.getLargura() / 2 - tiro.getLargura() / 2);
 		tiro.setPy(inimigo.getPy() + inimigo.getAltura());
 	}
 
-	/**
-	 * Exibe a tela de Game Over e pergunta ao jogador se deseja jogar novamente.
-	 * Fecha o programa se o jogador optar por não jogar novamente.
-	 */
-	/**
-	 * Exibe a tela de Game Over e pergunta ao jogador se deseja jogar novamente.
-	 * Fecha o programa se o jogador optar por não jogar novamente.
-	 */
-	private void exibirGameOver() {
-		int escolha = JOptionPane.showOptionDialog(
-				this,
-				"Deseja jogar novamente?",
-				"Game Over",
-				JOptionPane.YES_NO_OPTION,
-				JOptionPane.QUESTION_MESSAGE,
-				null,
-				new Object[]{"Jogar Novamente", "Fechar JogoSpaceInvader"},
-				"Jogar Novamente"
-		);
-
-		if (escolha == JOptionPane.YES_OPTION) {
-			// Reinicie a pontuação
-			pontos = 0;
-
-			carregarJogo();
-			if (timer.isRunning()) {
-				timer.stop();
-			}
-			timer.start();
-			vidas = 3;
-			iniciarJogo();
-		} else {
-			System.exit(0);
-		}
-	}
-
-
-	/**
-	 * Método principal que cria uma instância do `MenuInicial` ao iniciar o programa.
-	 *
-	 * @param args Argumentos de linha de comando (não utilizados).
-	 */
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				new MenuInicial();
-			}
-		});
+		JogoSpaceInvaders jogo = new JogoSpaceInvaders();
+		jogo.carregarJogo();
+		jogo.iniciarJogo();
 	}
+
 }
