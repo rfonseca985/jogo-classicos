@@ -9,18 +9,16 @@ Compilação do Código Fonte:
 
 Abra um terminal e navegue até o diretório que contém o arquivo JogoSnake.java. Compile o código-fonte usando o seguinte comando:
 
-bash
-Copy code
 javac JogoSnake.java
+
 Isso criará arquivos de classe .class no mesmo diretório.
 
 Execução do Jogo:
 
 Após a compilação, execute o jogo com o seguinte comando:
 
-bash
-Copy code
 java JogoSnake
+
 Isso iniciará o jogo Snake na interface gráfica.
 
 Controles do Jogo

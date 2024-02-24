@@ -9,18 +9,16 @@ Compilação do Código Fonte:
 
 Abra um terminal e navegue até o diretório que contém o arquivo JogoPong.java. Compile o código-fonte usando o seguinte comando:
 
-bash
-Copy code
 javac JogoPong.java
+
 Isso criará arquivos de classe .class no mesmo diretório.
 
 Execução do Jogo:
 
 Após a compilação, execute o jogo com o seguinte comando:
 
-bash
-Copy code
 java JogoPong
+
 Isso iniciará o jogo Pong na interface gráfica.
 
 Controles do Jogo
